@@ -4,6 +4,9 @@ namespace Sayeed.NETCore.DataProtection.Tests
 {
     public class HelperTests
     {
+        /// <summary>
+        /// Unit test to check "Is the method hiding information properly based on its default sensative property configuration".
+        /// </summary>
         [Fact]
         public void HideSensativeProperties_InitializedWithDefaultConfiguration_HidesInformationProperly()
         {
@@ -40,6 +43,9 @@ namespace Sayeed.NETCore.DataProtection.Tests
             Assert.Null(parent.Children[1].AuthToken);
         }
 
+        /// <summary>
+        /// Unit test to check "Is the method hiding information properly based on user's custom sensative property configuration".
+        /// </summary>
         [Fact]
         public void HideSensativeProperties_InitializedWithCustomSecretKeywords_HidesInformationProperly()
         {
