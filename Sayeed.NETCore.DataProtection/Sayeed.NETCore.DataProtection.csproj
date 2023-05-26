@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Title>Sayeed.NETCore.DataProtection</Title>
     <Authors>Md. Sayeed Rahman</Authors>
     <Description>Contains very useful method that can be used in any C# project to hide sensative information from any C# object.</Description>
@@ -13,6 +14,15 @@
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
 	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	  <PackageTags>csharp;dotnet;netcore;net;data;protection;secure;secret;helper;utils;method</PackageTags>
+	  <Version>1.0.1</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>True</Optimize>
   </PropertyGroup>
 
 	<ItemGroup>
