@@ -4,6 +4,11 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Sayeed.NETCore.DataProtection</Title>
+    <Authors>Md. Sayeed Rahman</Authors>
+    <Description>Contains very useful method that can be used in any C# project to hide sensative information from any C# object.</Description>
+    <RepositoryUrl>https://github.com/sayeed1999/Sayeed.NETCore.DataProtection</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
