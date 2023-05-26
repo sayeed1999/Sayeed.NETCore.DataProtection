@@ -31,6 +31,19 @@ namespace Sayeed.NETCore.DataProtection
         private int maxDepthToRecursivelyIterate;
 
         /// <summary>
+        /// Getter method to access current max depth of recursion loop.
+        /// </summary>
+        /// <returns></returns>
+        public int GetMaxDepthToRecursivelyIterate()
+            => this.maxDepthToRecursivelyIterate;
+
+        /// <summary>
+        /// Getter method to access current replaced value;
+        /// </summary>
+        public object GetReplacedValue
+            => this.replacedValue;
+
+        /// <summary>
         /// Use this constructor to begin with a default set of secret keywords to hide, maximum depth of recursion loop to 10, and replaced value to null.
         /// </summary>
         public Helper()
