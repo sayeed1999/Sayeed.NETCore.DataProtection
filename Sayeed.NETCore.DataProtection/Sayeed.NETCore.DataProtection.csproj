@@ -12,6 +12,7 @@
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
 	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+	  <PackageTags>csharp;dotnet;netcore;net;data;protection;secure;secret;helper;utils;method</PackageTags>
   </PropertyGroup>
 
 	<ItemGroup>
