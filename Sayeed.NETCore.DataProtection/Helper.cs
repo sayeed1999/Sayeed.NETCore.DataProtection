@@ -28,11 +28,6 @@ namespace Sayeed.NETCore.DataProtection
             => (string[])this.sensativeKeywords.Clone();
 
         /// <summary>
-        /// The value to replace sensative property values with.
-        /// </summary>
-        private object replacedValue = null;
-
-        /// <summary>
         /// The maximum depth upto which the recursion loop will enter. The default value is set to 10.
         /// </summary>
         private int maxDepthToRecursivelyIterate = 10;
@@ -43,12 +38,6 @@ namespace Sayeed.NETCore.DataProtection
         /// <returns></returns>
         public int GetMaxDepthToRecursivelyIterate()
             => this.maxDepthToRecursivelyIterate;
-
-        /// <summary>
-        /// Getter method to access current replaced value;
-        /// </summary>
-        public object GetReplacedValue
-            => this.replacedValue;
 
         /// <summary>
         /// Use this constructor to begin with all default configurations.
@@ -78,33 +67,14 @@ namespace Sayeed.NETCore.DataProtection
         }
 
         /// <summary>
-        /// Use this constructor to only customize default replaced value from null to anything else e.g ****
-        /// </summary>
-        /// <param name="replacedValue"></param>
-        public Helper(object replacedValue)
-        {
-            this.replacedValue = replacedValue;
-        }
-
-        /// <summary>
         /// Use this constructor to begin with your custom set of secret keywords to hide and maximum depth of recursion loop of your choice, and replaced value to null.
         /// </summary>
         /// <param name="sensativeKeywords"></param>
         /// <param name="maxDepthToRecursivelyIterate"></param>
         public Helper(string[] sensativeKeywords, int maxDepthToRecursivelyIterate)
-            : this(sensativeKeywords, maxDepthToRecursivelyIterate, null) { }
-
-        /// <summary>
-        /// Use this constructor to begin with your custom set of secret keywords to hide and maximum depth of recursion loop of your choice, and replaced value of your choice.
-        /// </summary>
-        /// <param name="sensativeKeywords"></param>
-        /// <param name="maxDepthToRecursivelyIterate"></param>
-        /// <param name="replacedValue"></param>
-        public Helper(string[] sensativeKeywords, int maxDepthToRecursivelyIterate, object replacedValue)
         {
             this.sensativeKeywords = sensativeKeywords;
             this.maxDepthToRecursivelyIterate = maxDepthToRecursivelyIterate;
-            this.replacedValue = replacedValue;
         }
 
         /// <summary>
@@ -146,7 +116,7 @@ namespace Sayeed.NETCore.DataProtection
                     {
                         if (property.Name.ToLower().Contains(secret.ToLower()))
                         {
-                            property.SetValue(entity, this.replacedValue);
+                            property.SetValue(entity, null);
                             isHidden = true;
                             break;
                         }
