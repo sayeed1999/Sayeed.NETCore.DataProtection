@@ -11,7 +11,14 @@ namespace Sayeed.NETCore.DataProtection
         /// <summary>
         /// List of possible keywords to be found in sensative property names.
         /// </summary>
-        private string[] sensativeKeywords;
+        private string[] sensativeKeywords = new string[]
+        {
+            "pass",
+            "secret",
+            "key",
+            "pwd",
+            "token",
+        };
 
         /// <summary>
         /// Getter method to access current list of sensative keywords.
@@ -23,12 +30,12 @@ namespace Sayeed.NETCore.DataProtection
         /// <summary>
         /// The value to replace sensative property values with.
         /// </summary>
-        private object replacedValue;
+        private object replacedValue = null;
 
         /// <summary>
         /// The maximum depth upto which the recursion loop will enter. The default value is set to 10.
         /// </summary>
-        private int maxDepthToRecursivelyIterate;
+        private int maxDepthToRecursivelyIterate = 10;
 
         /// <summary>
         /// Getter method to access current max depth of recursion loop.
@@ -44,28 +51,40 @@ namespace Sayeed.NETCore.DataProtection
             => this.replacedValue;
 
         /// <summary>
-        /// Use this constructor to begin with a default set of secret keywords to hide, maximum depth of recursion loop to 10, and replaced value to null.
+        /// Use this constructor to begin with all default configurations.
         /// </summary>
         public Helper()
         {
-            this.sensativeKeywords = new string[]
-            {
-                "pass",
-                "secret",
-                "key",
-                "pwd",
-                "token",
-            };
-            this.maxDepthToRecursivelyIterate = 10;
-            this.replacedValue = null;
+
         }
 
         /// <summary>
-        /// Use this constructor to begin with your custom set of secret keywords to hide, maximum depth of recursion loop to 10, and replaced value to null.
+        /// Use this constructor to only customize a your own set of sensative keywords to hide.
         /// </summary>
         /// <param name="sensativeKeywords"></param>
-        public Helper(string[] sensativeKeywords) 
-            : this(sensativeKeywords, 10, null) { }
+        public Helper(string[] sensativeKeywords)
+        {
+            this.sensativeKeywords = sensativeKeywords;
+        }
+
+
+        /// <summary>
+        /// Use this constructor to only customize max depth of recursion loop.
+        /// </summary>
+        /// <param name="maxDepthToRecursivelyIterate"></param>
+        public Helper(int maxDepthToRecursivelyIterate)
+        {
+            this.maxDepthToRecursivelyIterate = maxDepthToRecursivelyIterate;
+        }
+
+        /// <summary>
+        /// Use this constructor to only customize default replaced value from null to anything else e.g ****
+        /// </summary>
+        /// <param name="replacedValue"></param>
+        public Helper(object replacedValue)
+        {
+            this.replacedValue = replacedValue;
+        }
 
         /// <summary>
         /// Use this constructor to begin with your custom set of secret keywords to hide and maximum depth of recursion loop of your choice, and replaced value to null.
