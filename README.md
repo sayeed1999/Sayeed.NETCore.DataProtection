@@ -1,12 +1,13 @@
 # Sayeed.NETCore.DataProtection
 
-Sayeed.NETCore.DataProtection is a library that provides a helper class for hiding sensitive properties within C# objects. It allows you to iterate over an object and identify any property names that contain sensitive keywords, and then hide their values. This library can be used to protect sensitive information within your application, such as passwords, tokens, or any other sensitive data.
+Sayeed.NETCore.DataProtection is a library that provides a helpful class for hiding sensitive properties within a C# object, even if they are nested within other objects or arrays. This library allows you to go through an object and its nested structures, like sub-objects and lists, to find any properties with sensitive keywords in their names. The class uses a default array of sensative keywords i.e ```"pass", "secret", "key", "pwd", "token"```. Once identified, the values of these properties are replaced with ```null```, ensuring that the sensitive information is hidden. It's a convenient tool to protect important data, such as passwords or tokens, in your application.
 
 ## Features
 
-- Iterate over any C# object and hide sensitive properties
-- Customizable set of sensitive keywords to match against property names
-- Customizable maximum depth of recursion loop
+- Iterate over any C# object and its nested structures like sub-objects and lists and hide sensitive properties regardless of depth 
+- Has versatile set of keywords to match almost every sensative properties that an entity may contain. ```Example, "pass" matches with Password, password, UserPass. "token" matches with JwtToken, AuthToken. "key" matches with ApiKey.```
+- Supports custom set of sensitive keywords to match against property names to match your application needs
+- Supports customization of maximum depth of the recursion loop (default value is 10)
 - Supports classes, records, and pre-defined types (anonymous objects are not supported)
 
 ## Installation
@@ -28,7 +29,7 @@ Helper helper = new Helper();
 MyClass myObject = new MyClass();
 helper.HideSensativeProperties(myObject);
 ```
-The HideSensativeProperties method will recursively iterate over the object and its properties, searching for property names that contain sensitive keywords. If a match is found, the property value will be set to null. The method modifies the existing object, don't return anything.
+The HideSensativeProperties method will recursively iterate over the object and its nested structures, like sub-objects and lists, searching for property names that contain sensitive keywords regardless of depth. If a match is found, the property value will be set to null. The method modifies the existing object, don't return anything.
 
 ## Customization
 
@@ -48,7 +49,7 @@ int maxDepth = 5;
 Helper helper = new Helper(maxDepth);
 ```
 
-####Custom Set of Keywords and Maximum Depth
+#### Custom Set of Keywords and Maximum Depth
 If you want to customize both the sensitive keywords and the maximum depth of the recursion loop, use the constructor that accepts both parameters:
 
 ```csharp
@@ -57,28 +58,67 @@ int maxDepth = 5;
 Helper helper = new Helper(customKeywords, maxDepth);
 ```
 
-## Examples
+# Example
 
-Here's an example of using Sayeed.NETCore.DataProtection to hide sensitive properties within an object:
+Here's a complete example of using Sayeed.NETCore.DataProtection to hide sensitive properties within nested objects and arrays across multiple levels of depth:
 
 ```csharp
+using System;
+using System.Collections.Generic;
+using Sayeed.NETCore.DataProtection;
+
+public class Website
+{
+    public string ApiKey { get; set; }
+    public int Port { get; set; }
+    public string Host { get; set; }
+}
+
+public class Student
+{
+    public string Roll { get; set; }
+    public string StudentSecret { get; set; }
+}
+
+// Initializing the helper class
 Helper helper = new Helper();
 
+// Use your own set of custom keywords to match your business needs.
+// Helper helper = new Helper(new string[] { "deletedBy", "counter", "count", "deletedAt" });
+
 // Create an object with sensitive properties
-MyClass myObject = new MyClass
+Teacher teacher = new Teacher
 {
+    Name = "John Doe",
     Password = "secretpassword",
     Token = "sometoken",
-    Name = "John Doe"
+    Website = new Website
+    {
+        ApiKey = "zxcvbnmlkjhgfdsa",
+        Port = 5000,
+        Host = "localhost"
+    },
+    Students = new List<Student>
+    {
+        new Student { Roll = "002", StudentSecret = "abababababbabb" },
+        new Student { Roll = "003", StudentSecret = "zzxzxzxzxzxzx" },
+    }
 };
 
 // Hide sensitive properties
-helper.HideSensativeProperties(myObject);
+helper.HideSensitiveProperties(teacher);
 
 // Sensitive properties are now null
-Console.WriteLine(myObject.Password); // null
-Console.WriteLine(myObject.Token); // null
-Console.WriteLine(myObject.Name); // "John Doe" (not sensitive)
+Console.WriteLine(teacher.Name); // "John Doe" (not sensitive)
+Console.WriteLine(teacher.Password); // null
+Console.WriteLine(teacher.Token); // null
+Console.WriteLine(teacher.Website.ApiKey); // null
+Console.WriteLine(teacher.Website.Port); // 5000 (not sensitive)
+Console.WriteLine(teacher.Website.Host); // "localhost" (not sensitive)
+Console.WriteLine(teacher.Students[0].Roll); // "002" (not sensitive)
+Console.WriteLine(teacher.Students[0].StudentSecret); // null (sensitive)
+Console.WriteLine(teacher.Students[1].Roll); // "003" (not sensitive)
+Console.WriteLine(teacher.Students[1].StudentSecret); // null (sensitive)
 ```
 
 ## Contributing
