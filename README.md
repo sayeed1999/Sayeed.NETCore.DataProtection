@@ -1,6 +1,8 @@
 # Sayeed.NETCore.DataProtection
 
-Sayeed.NETCore.DataProtection is a library that provides a helpful class for hiding sensitive properties within a C# object, even if they are nested within other objects or arrays. This library allows you to go through an object and its nested structures, like sub-objects and lists, to find any properties with sensitive keywords in their names. The class uses a default array of sensative keywords i.e ```"pass", "secret", "key", "pwd", "token"```. Once identified, the values of these properties are replaced with ```null```, ensuring that the sensitive information is hidden. It's a convenient tool to protect important data, such as passwords or tokens, in your application.
+`Sayeed.NETCore.DataProtection` is a library that provides a helpful class for hiding sensitive properties within a C# object of pre-defined type, even if they are nested within other objects or arrays. This library allows you to go through an object and its nested structures, like sub-objects and lists, to find any properties with sensitive keywords in their names. 
+
+The class uses a default array of sensative keywords i.e ```{ "pass", "secret", "key", "pwd", "token" }```. Once identified, the values of these properties are replaced with ```null```, ensuring that the sensitive information is hidden. It's a convenient tool to protect important data, such as passwords or tokens, in your application.
 
 ## Features
 
@@ -12,7 +14,7 @@ Sayeed.NETCore.DataProtection is a library that provides a helpful class for hid
 
 ## Installation
 
-You can install the Sayeed.NETCore.DataProtection library via NuGet. Run the following command in the NuGet Package Manager Console:
+You can install the `Sayeed.NETCore.DataProtection` library via NuGet. Run the following command in the `NuGet Package Manager Console`:
 
 ```csharp
 Install-Package Sayeed.NETCore.DataProtection
@@ -24,12 +26,12 @@ Install-Package Sayeed.NETCore.DataProtection
 ```csharp
 Helper helper = new Helper();
 ```
-2. Call the HideSensativeProperties method and pass the object you want to process:
+2. Call the `HideSensativeProperties` method and pass the object you want to process:
 ```csharp
 MyClass myObject = new MyClass();
 helper.HideSensativeProperties(myObject);
 ```
-The HideSensativeProperties method will recursively iterate over the object and its nested structures, like sub-objects and lists, searching for property names that contain sensitive keywords regardless of depth. If a match is found, the property value will be set to null. The method modifies the existing object, don't return anything.
+The `HideSensativeProperties` method will recursively iterate over the object and its nested structures, like sub-objects and lists, searching for property names that contain sensitive keywords regardless of depth. If a match is found, the property value will be set to null. The method modifies the existing object, don't return anything.
 
 ## Customization
 
@@ -42,30 +44,41 @@ Helper helper = new Helper(customKeywords);
 ```
 
 #### Maximum Depth of Recursion Loop
-By default, the maximum depth of the recursion loop is set to 10. You can customize this value using the constructor that accepts an integer:
+By default, the maximum depth of the recursion loop is set to `10`. You can customize this value using the constructor that accepts an integer:
 
 ```csharp
-int maxDepth = 5;
+int maxDepth = 3;
 Helper helper = new Helper(maxDepth);
 ```
+
+:warning: Warning: If the maximum depth is too large, sometimes the recursion loop can get into `System.Runtime` or `.dll` files. Beware of that!
 
 #### Custom Set of Keywords and Maximum Depth
 If you want to customize both the sensitive keywords and the maximum depth of the recursion loop, use the constructor that accepts both parameters:
 
 ```csharp
-string[] customKeywords = new string[] { "custom", "keywords" };
-int maxDepth = 5;
+string[] customKeywords = new string[] { "counter", "deleted", "created", "updated", "hidden", "popularity" };
+int maxDepth = 50;
 Helper helper = new Helper(customKeywords, maxDepth);
 ```
 
 # Example
 
-Here's a complete example of using Sayeed.NETCore.DataProtection to hide sensitive properties within nested objects and arrays across multiple levels of depth:
+Here's a complete example of using `Sayeed.NETCore.DataProtection` to hide sensitive properties within nested objects and arrays across multiple levels of depth:
 
 ```csharp
 using System;
 using System.Collections.Generic;
 using Sayeed.NETCore.DataProtection;
+
+public class Teacher
+{
+    public string Name { get; set; }
+    public string Password { get; set; }
+    public string Token { get; set; }
+    public Website Website { get; set; }
+    public IList<Student> Students { get; set; }
+}
 
 public class Website
 {
@@ -105,27 +118,30 @@ Teacher teacher = new Teacher
     }
 };
 
-// Hide sensitive properties
+// Hide sensitive properties inside the entity
 helper.HideSensitiveProperties(teacher);
 
 // Sensitive properties are now null
 Console.WriteLine(teacher.Name); // "John Doe" (not sensitive)
-Console.WriteLine(teacher.Password); // null
-Console.WriteLine(teacher.Token); // null
-Console.WriteLine(teacher.Website.ApiKey); // null
+Console.WriteLine(teacher.Password); // null (property name contains sensitive keyword)
+Console.WriteLine(teacher.Token); // null (property name contains sensitive keyword)
+
+Console.WriteLine(teacher.Website.ApiKey); // null (property name contains sensitive keyword)
 Console.WriteLine(teacher.Website.Port); // 5000 (not sensitive)
 Console.WriteLine(teacher.Website.Host); // "localhost" (not sensitive)
+
 Console.WriteLine(teacher.Students[0].Roll); // "002" (not sensitive)
-Console.WriteLine(teacher.Students[0].StudentSecret); // null (sensitive)
+Console.WriteLine(teacher.Students[0].StudentSecret); // null (property name contains sensitive keyword)
+
 Console.WriteLine(teacher.Students[1].Roll); // "003" (not sensitive)
-Console.WriteLine(teacher.Students[1].StudentSecret); // null (sensitive)
+Console.WriteLine(teacher.Students[1].StudentSecret); // null (property name contains sensitive keyword)
 ```
 
 ## Contributing
 Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue on the [GitHub repository](https://github.com/sayeed1999/Sayeed.NETCore.DataProtection).
 
 ## License
-This library is licensed under the MIT License. See the LICENSE file for more details.
+This library is licensed under the MIT License. See the [LICENSE](https://github.com/sayeed1999/Sayeed.NETCore.DataProtection/blob/main/LICENSE.txt) file for more details.
 
 ## Acknowledgements
 This library was developed by [Md. Sayeed Rahman](https://www.linkedin.com/in/mdsayeedrahman1999/).
