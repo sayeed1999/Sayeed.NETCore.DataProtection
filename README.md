@@ -1,6 +1,6 @@
 # Sayeed.NETCore.DataProtection
 
-`Sayeed.NETCore.DataProtection` is a library that provides a helpful class for hiding sensitive properties within a C# object of pre-defined type, even if they are nested within other objects or arrays. This library allows you to go through an object and its nested structures, like sub-objects and lists, to find any properties with sensitive keywords in their names. 
+`Sayeed.NETCore.DataProtection` is a library that provides a helpful class for hiding sensitive properties within a C# `object` of `pre-defined` type, even if they are nested within other objects or arrays. This library allows you to go through an object and its nested structures, like sub-objects and lists, to find any properties with sensitive keywords in their names. 
 
 The class uses a default array of sensative keywords i.e ```{ "pass", "secret", "key", "pwd", "token" }```. Once identified, the values of these properties are replaced with ```null```, ensuring that the sensitive information is hidden. It's a convenient tool to protect important data, such as passwords or tokens, in your application.
 
